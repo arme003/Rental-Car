@@ -1,0 +1,35 @@
+from dao import AutomobileDAO
+
+class Model:
+    def __init__(self):
+        self.dao=AutomobileDAO()
+
+    def load_all(self):
+        lista=self.dao.read_all()
+        if not lista:
+            return
+        return lista
+
+    def load_by_brand(self,marca):
+        lista=self.dao.read_by_marca(marca)
+        if not lista:
+            return
+        return lista
+
+    def load_by_modello(self,modello):
+        lista=self.dao.read_by_modello(modello)
+        if not lista:
+            return
+        return lista
+
+    def load_by_anno(self,anno):
+        lista=self.dao.read_by_anno(anno)
+        if not lista:
+            return
+        return lista
+
+    def load_insert(self,codice,marca,modello,anno,posti):
+        lista=self.dao.insert_automobile(codice,marca,modello,anno,posti)
+        if not lista:
+            return
+        return lista
