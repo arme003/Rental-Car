@@ -1,0 +1,14 @@
+import flet as ft
+from model import Model
+from view import View
+from controller import Controller
+
+def main(page:ft.Page):
+    m=Model()
+    v=View(page)
+    c=Controller(m,v)
+    v.set_controller(c)
+    v.load()
+
+if __name__ == '__main__':
+    ft.app(target=main)
