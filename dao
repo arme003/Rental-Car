@@ -1,0 +1,102 @@
+from DB_connect import get_connection
+from dto import AutomobileDTO
+
+class AutomobileDAO:
+    def __init__(self):
+        pass
+
+    def read_all(self):
+        cnx=get_connection()
+        results=[]
+        if cnx is None:
+            return []
+        cursor = cnx.cursor(dictionary=True)
+        query="SELECT * FROM automobile"
+        try:
+            cursor.execute(query)
+            rows = cursor.fetchall()
+            for row in rows:
+                car=AutomobileDTO(row["codice"],row["marca"],row["modello"],row["anno"],row["posti"])
+                results.append(car)
+        except Exception as e:
+            print(f"Errore nella esecuzione della query: {e}")
+        finally:
+            cursor.close()
+            cnx.close()
+        return results
+
+    def read_by_marca(self,marca):
+        cnx=get_connection()
+        results=[]
+        if cnx is None:
+            return []
+        cursor = cnx.cursor(dictionary=True)
+        query="SELECT * FROM automobile WHERE marca=%s"
+        try:
+            cursor.execute(query,(marca,))
+            rows = cursor.fetchall()
+            for row in rows:
+                car=AutomobileDTO(row["codice"],row["marca"],row["modello"],row["anno"],row["posti"])
+                results.append(car)
+        except Exception as e:
+            print(f"Errore nella esecuzione della query: {e}")
+        finally:
+            cursor.close()
+            cnx.close()
+        return results
+
+    def read_by_modello(self,modello):
+        cnx = get_connection()
+        results = []
+        if cnx is None:
+            return []
+        cursor = cnx.cursor(dictionary=True)
+        query = "SELECT * FROM automobile WHERE modello=%s"
+        try:
+            cursor.execute(query, (modello,))
+            rows = cursor.fetchall()
+            for row in rows:
+                car = AutomobileDTO(row["codice"], row["marca"], row["modello"], row["anno"], row["posti"])
+                results.append(car)
+        except Exception as e:
+            print(f"Errore nella esecuzione della query: {e}")
+        finally:
+            cursor.close()
+            cnx.close()
+        return results
+
+    def read_by_anno(self,anno):
+        cnx = get_connection()
+        results = []
+        if cnx is None:
+            return []
+        cursor = cnx.cursor(dictionary=True)
+        query = "SELECT * FROM automobile WHERE anno=%s"
+        try:
+            cursor.execute(query, (anno,))
+            rows = cursor.fetchall()
+            for row in rows:
+                car=AutomobileDTO(row["codice"], row["marca"], row["modello"], row["anno"], row["posti"])
+                results.append(car)
+        except Exception as e:
+            print(f"Errore nella esecuzione della query: {e}")
+        finally:
+            cursor.close()
+            cnx.close()
+        return results
+
+    def insert_automobile(self,codice,marca,modello,anno,posti):
+        cnx=get_connection()
+        if cnx is None:
+            return
+        cursor = cnx.cursor()
+        query="INSERT INTO automobile (codice,marca,modello,anno,posti) VALUES (%s,%s,%s,%s,%s)"
+        try:
+            cursor.execute(query, (codice,marca,modello,anno,posti))
+            cnx.commit()
+        except Exception as e:
+            print(f"Errore nella esecuzione della query: {e}")
+        finally:
+            cursor.close()
+            cnx.close()
+
