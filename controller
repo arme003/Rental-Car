@@ -1,0 +1,100 @@
+from model import Model
+from view import View
+
+class Controller:
+    def __init__(self,model:Model,view:View):
+        self.model=model
+        self.view=view
+
+    def show(self,e):
+        lista=self.model.load_all()
+        if len(lista)==0:
+            self.view.set_alert("There aren't cars available")
+        self.view.render(lista)
+        self.view.lista_auto.visible=True
+        self.view.lista_auto_brand.visible=False
+        self.view.lista_auto_modello.visible=False
+        self.view.lista_auto_year.visible=False
+        self.view.clear()
+        self.view.update()
+        return
+
+    def search_by_brand(self,e):
+        brand=self.view.etichettaMarca.value
+        if not brand:
+            self.view.set_alert("Please enter a brand")
+            return
+        if type(brand) != str:
+            self.view.set_alert("Please enter only str")
+            return
+        lista=self.model.load_by_brand(brand)
+        if len(lista)==0:
+            self.view.set_alert("There aren't cars with this brand")
+            return
+        self.view.render_by_brand(lista)
+        self.view.lista_auto_brand.visible=True
+        self.view.lista_auto.visible=False
+        self.view.lista_auto_modello.visible=False
+        self.view.lista_auto_year.visible=False
+        self.view.clear()
+        self.view.update()
+        return
+
+    def search_by_model(self,e):
+        model=self.view.etichettaModello.value
+        if not model:
+            self.view.set_alert("Please enter a model")
+            return
+        if type(model) != str:
+            self.view.set_alert("Please enter only str")
+            return
+        lista=self.model.load_by_modello(model)
+        if len(lista)==0:
+            self.view.set_alert("There aren't cars with this model")
+            return
+        self.view.render_by_model(lista)
+        self.view.lista_auto_modello.visible=True
+        self.view.lista_auto.visible=False
+        self.view.lista_auto_brand.visible=False
+        self.view.lista_auto_year.visible=False
+        self.view.clear()
+        self.view.update()
+        return
+
+
+    def search_by_year(self,e):
+        year=self.view.etichettaAnno.value
+        if  len(year)!=4:
+            self.view.set_alert("Please enter only int or right year")
+            return
+        lista=self.model.load_by_anno(year)
+        if len(lista)==0:
+            self.view.set_alert("There aren't cars with this year")
+            return
+        self.view.render_by_year(lista)
+        self.view.lista_auto_year.visible=True
+        self.view.lista_auto.visible=False
+        self.view.lista_auto_brand.visible=False
+        self.view.lista_auto_modello.visible=False
+        self.view.clear()
+        self.view.update()
+        return
+
+
+    def add(self,e):
+        codice=self.view.fieldCodice.value
+        marca=self.view.fieldMarca.value
+        modello=self.view.fieldModel.value
+        anno=self.view.fieldYear.value
+        posti=self.view.fieldPosti.value
+        if not all([codice,marca,modello,anno,posti]):
+            self.view.set_alert("Please enter all the labels")
+            return
+        self.model.load_insert(codice,marca,modello,anno,posti)
+        self.view.lista_auto_year.visible = False
+        self.view.lista_auto.visible = False
+        self.view.lista_auto_brand.visible = False
+        self.view.lista_auto_modello.visible = False
+        self.view.clear()
+        self.view.update()
+
