@@ -1,0 +1,26 @@
+from dataclasses import dataclass
+@dataclass
+
+class AutomobileDTO:
+    codice:str
+    marca:str
+    modello:str
+    anno:int
+    posti:int
+
+    def __str__(self):
+        return f"Codice: {self.codice}, Marca: {self.marca}, Modello: {self.modello}, Anno: {self.anno}, Posti: {self.posti}"
+
+    def __repr__(self):
+        return self.__str__()
+
+    def __hash__(self):
+        return hash(self.codice)
+
+    def __eq__(self, other):
+        return self.codice == other.codice
+
+    def __lt__(self, other):
+        return self.anno < other.anno
+
+
