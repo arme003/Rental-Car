@@ -1,0 +1,116 @@
+import flet as ft
+
+class View:
+    def __init__(self,page:ft.Page):
+        self.page = page
+        self.controller=None
+
+    def set_controller(self,controller):
+        self.controller = controller
+
+    def load(self):
+        self.page.title="Cars"
+        self.page.scroll="auto"
+        # allarme
+        self.dsg=ft.AlertDialog(modal=False,bgcolor="red")
+
+        #1st row objects
+        self.textAutomobile=ft.Text(value="Car Rental",color="blue",size=40)
+        btnShow=ft.ElevatedButton(text="Show Cars available",on_click=self.controller.show)
+        self.lista_auto=ft.ListView(visible=False)
+
+        #2nd row objects
+        self.etichettaMarca=ft.TextField(label="Brand",width=200)
+        btnShowBrand=ft.ElevatedButton(text="Search by Brand",on_click=self.controller.search_by_brand)
+        self.lista_auto_brand=ft.ListView(visible=False)
+
+        #3rd row oblects
+        self.etichettaModello=ft.TextField(label="Model",width=200)
+        btnShowModel=ft.ElevatedButton(text="Search by Model",on_click=self.controller.search_by_model)
+        self.lista_auto_modello=ft.ListView(visible=False)
+
+        #4th row objects
+        self.etichettaAnno=ft.TextField(label="Year",width=200)
+        btnShowYear=ft.ElevatedButton(text="Search by Year",on_click=self.controller.search_by_year)
+        self.lista_auto_year=ft.ListView(visible=False)
+
+        #5h row objects
+        self.fieldCodice=ft.TextField(label="Id:",width=130)
+        self.fieldMarca=ft.TextField(label="Brand:",width=130)
+        self.fieldModel=ft.TextField(label="Model:",width=130)
+        self.fieldYear=ft.TextField(label="Year:",width=130)
+        self.fieldPosti=ft.TextField(label="Seats:",width=130)
+        btnAdd=ft.ElevatedButton(text="Add Car",on_click=self.controller.add)
+
+        #COSTRUZIONE PAGINA
+        self.page.add(
+            #1st row build
+            ft.Row([self.textAutomobile,btnShow],alignment=ft.MainAxisAlignment.CENTER),
+            ft.Row([self.lista_auto],alignment=ft.MainAxisAlignment.CENTER),
+            ft.Divider(),
+
+            #2nd row build
+            ft.Row([self.etichettaMarca,btnShowBrand],alignment=ft.MainAxisAlignment.CENTER),
+            ft.Row([self.lista_auto_brand],alignment=ft.MainAxisAlignment.CENTER),
+            ft.Divider(),
+
+            #3rd row build
+            ft.Row([self.etichettaModello,btnShowModel],alignment=ft.MainAxisAlignment.CENTER),
+            ft.Row([self.lista_auto_modello],alignment=ft.MainAxisAlignment.CENTER),
+            ft.Divider(),
+
+            #4th row build
+            ft.Row([self.etichettaAnno,btnShowYear],alignment=ft.MainAxisAlignment.CENTER),
+            ft.Row([self.lista_auto_year],alignment=ft.MainAxisAlignment.CENTER),
+            ft.Divider(),
+
+            #5th row build
+            ft.Row([self.fieldCodice,self.fieldMarca,self.fieldModel,self.fieldYear,self.fieldPosti,btnAdd],alignment=ft.MainAxisAlignment.CENTER),
+
+        )
+
+    def clear(self):
+        self.fieldCodice.value=""
+        self.fieldMarca.value=""
+        self.fieldModel.value=""
+        self.fieldYear.value=""
+        self.fieldPosti.value=""
+        self.etichettaMarca.value=""
+        self.etichettaModello.value=""
+        self.etichettaAnno.value=""
+        self.page.update()
+
+    def update(self):
+        self.page.update()
+
+    def set_alert(self,message):
+        self.dsg.title=ft.Text(message)
+        self.page.open(self.dsg)
+        self.update()
+
+    def render(self,lista):
+        self.lista_auto.controls.clear()
+        for item in lista:
+            self.lista_auto.controls.append(ft.Text(item))
+        self.update()
+
+    def render_by_brand(self,lista):
+        self.lista_auto_brand.controls.clear()
+        for item in lista:
+            self.lista_auto_brand.controls.append(ft.Text(item))
+        self.update()
+
+    def render_by_model(self,lista):
+        self.lista_auto_modello.controls.clear()
+        for item in lista:
+            self.lista_auto_modello.controls.append(ft.Text(item))
+        self.update()
+
+    def render_by_year(self,lista):
+        self.lista_auto_year.controls.clear()
+        for item in lista:
+            self.lista_auto_year.controls.append(ft.Text(item))
+        self.update()
+
+
+
