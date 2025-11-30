@@ -8,7 +8,7 @@ class Controller:
 
     def show(self,e):
         lista=self.model.load_all()
-        if len(lista)==0:
+        if not lista:
             self.view.set_alert("There aren't cars available")
         self.view.render(lista)
         self.view.lista_auto.visible=True
@@ -28,7 +28,7 @@ class Controller:
             self.view.set_alert("Please enter only str")
             return
         lista=self.model.load_by_brand(brand)
-        if len(lista)==0:
+        if not lista:
             self.view.set_alert("There aren't cars with this brand")
             return
         self.view.render_by_brand(lista)
@@ -49,7 +49,7 @@ class Controller:
             self.view.set_alert("Please enter only str")
             return
         lista=self.model.load_by_modello(model)
-        if len(lista)==0:
+        if not lista:
             self.view.set_alert("There aren't cars with this model")
             return
         self.view.render_by_model(lista)
@@ -68,7 +68,7 @@ class Controller:
             self.view.set_alert("Please enter only int or right year")
             return
         lista=self.model.load_by_anno(year)
-        if len(lista)==0:
+        if not lista:
             self.view.set_alert("There aren't cars with this year")
             return
         self.view.render_by_year(lista)
